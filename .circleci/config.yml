@@ -2,29 +2,14 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  terraform-install:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  terraform-job:
     docker:
+      # replace with your preferred image
       - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      - checkout
-      - run:
-          name: "Terraform"
-          command: |
-            sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
-            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-            sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-            sudo apt-get update && sudo apt-get install terraform
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+      - terraform/install
 workflows:
-  terraform-install-workflow:
+  example-workflow:
     jobs:
-      - terraform-install
+      - terraform-job
