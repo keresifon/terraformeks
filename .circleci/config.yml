@@ -10,6 +10,6 @@ jobs:
     steps:
       - terraform/install
 workflows:
-  example-workflow:
+  terraform-workflow:
     jobs:
       - terraform-job
