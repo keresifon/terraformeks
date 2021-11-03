@@ -32,7 +32,7 @@ jobs:
             terraform init
             terraform apply -auto-approve
 
-  kubernetes:
+  IngressRole:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -123,12 +123,12 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      - kubernetes:
+      - IngressRole:
           requires:
             - "terraform"
       - AWSIngress:
           requires:
-            - "eksctl"
+            - "IngressRole"
       - deploy:
           requires:
             - "AWSIngress"
