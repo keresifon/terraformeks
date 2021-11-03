@@ -30,7 +30,7 @@ jobs:
             terraform init
             terraform plan
             terraform apply -auto-approve
-            cat << EOF >> main.tf
+            cat << EOF > main.tf
                 terraform {
                   backend "s3" {
                     bucket = "enobasin"
