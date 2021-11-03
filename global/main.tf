@@ -41,3 +41,5 @@ module "dynamodb_table" {
     Environment = "staging"
   }
 }
+
+

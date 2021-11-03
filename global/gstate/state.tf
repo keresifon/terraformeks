@@ -1,5 +1,5 @@
 
-
+cat << EOF >> main.tf
 terraform {
   backend "s3" {
     bucket = "enobasin"
@@ -10,3 +10,4 @@ terraform {
     encrypt = true
   }
 }
+EOF
