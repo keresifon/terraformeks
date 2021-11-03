@@ -4,10 +4,11 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
+  aws-eks: circleci/aws-eks@1.1.0
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  terraform-install:
+  terraform:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -29,12 +30,36 @@ jobs:
             cd kubernetes
             terraform init
             terraform plan
-            terraform destroy -auto-approve
+            terraform apply -auto-approve
+            
+  eksctl:
+      # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+      # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+      docker:
+        - image: cimg/base:stable
+      # Add steps to the job
+      # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      steps:
+        - checkout
+        - aws-eks/install-eksctl
+        - aws-cli/setup:
+            aws-access-key-id: AWS_ACCESS_KEY_ID
+            aws-region: AWS_DEFAULT_REGION
+            aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+        - run:
+            command: |
+              cd kubernetes
+              aws iam create-policy --policy-name ALBIngressControllerIAMPolicy --policy-document file://iam_policy.json
+
+              
             
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  terraform-install-workflow:
+  terraform-workflow:
     jobs:
-      - terraform-install
+      - terraform
+      - eksctl :
+          requires:
+             - "terraform"
