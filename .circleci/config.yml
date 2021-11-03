@@ -17,9 +17,9 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY_ID 
-          aws-region: AWS_DEFAULT_REGION 
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY 
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_DEFAULT_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
       - run:
           command: |
             sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
@@ -41,9 +41,7 @@ jobs:
                     encrypt = true
                   }
                 }
-                EOF
-           
-            
+            EOF
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
