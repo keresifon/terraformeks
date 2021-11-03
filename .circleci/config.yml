@@ -50,9 +50,9 @@ jobs:
             sudo apt-get update
             sudo apt-get -qq -y install curl
             sudo apt-get install -y unzip
-      - aws-eks/install-eksctl
-      - run:
-          command: |
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.70.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+            sudo mv /tmp/eksctl /usr/local/bin
+            eksctl version
             cd kubernetes
             aws iam create-policy --policy-name ALBIngressControllerIAMPolicy --policy-document file://iam_policy.json
 
