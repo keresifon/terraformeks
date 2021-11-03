@@ -126,9 +126,9 @@ workflows:
       - kubernetes:
           requires:
             - "terraform"
-      # - AWSIngress:
-      #     requires:
-      #       - "eksctl"
-      # - deploy:
-      #     requires:
-      #       - "AWSIngress"
+      - AWSIngress:
+          requires:
+            - "eksctl"
+      - deploy:
+          requires:
+            - "AWSIngress"
