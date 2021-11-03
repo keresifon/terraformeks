@@ -123,9 +123,9 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      # - kubernetes:
-      #     requires:
-      #       - "terraform"
+      - kubernetes:
+          requires:
+            - "terraform"
       # - AWSIngress:
       #     requires:
       #       - "eksctl"
