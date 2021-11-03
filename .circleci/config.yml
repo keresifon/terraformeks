@@ -5,6 +5,7 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
   aws-eks: circleci/aws-eks@1.1.0
+  
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -45,6 +46,10 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_DEFAULT_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - aws-eks/update-kubeconfig-with-authenticator:
+          install-kubectl: true
+          cluster-name: portfolio
+          aws-region: us-east-1
       - run:
           command: |  
             sudo apt-get update
@@ -63,6 +68,30 @@ jobs:
                 --attach-policy-arn=arn:aws:iam::386710470695:policy/ALBIngressControllerIAMPolicy \
                 --override-existing-serviceaccounts \
                 --approve
+  AWSIngress:
+      # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+      # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+      docker:
+        - image: cimg/base:stable
+      # Add steps to the job
+      # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      steps:
+        - checkout
+        - aws-cli/setup:
+            aws-access-key-id: AWS_ACCESS_KEY_ID
+            aws-region: AWS_DEFAULT_REGION
+            aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+        - run:
+            command: |  
+              sudo apt-get update
+              sudo apt-get -qq -y install curl
+              sudo apt-get install -y unzip
+              curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.70.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+              sudo mv /tmp/eksctl /usr/local/bin
+              kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+              helm repo add eks https://aws.github.io/eks-charts
+              helm repo update 
+              helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=portfolio --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller -n kube-system
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -73,3 +102,6 @@ workflows:
       - eksctl:
           requires:
             - "terraform"
+      - AWSIngress:
+          requires:
+            - "eksctl"
