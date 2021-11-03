@@ -30,7 +30,7 @@ jobs:
             cd kubernetes
             terraform init
             terraform plan
-            terraform destroy -auto-approve
+            terraform apply -auto-approve
             
   eksctl:
       # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -41,6 +41,11 @@ jobs:
       # See: https://circleci.com/docs/2.0/configuration-reference/#steps
       steps:
         - checkout
+        - run:
+          command: |
+            apt-get update
+            apt-get -qq -y install curl
+            apt-get install -y unzip
         - aws-eks/install-eksctl
         - aws-cli/setup:
             aws-access-key-id: AWS_ACCESS_KEY_ID
