@@ -112,7 +112,7 @@ workflows:
       # - IngressRole:
       #     requires:
       #       - "terraform"
-      - deploy:
+      - deploy
           # requires:
           #   - "IngressRole"
      
