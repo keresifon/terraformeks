@@ -46,7 +46,6 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_DEFAULT_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-      
       - run:
           command: |  
             sudo apt-get update
@@ -79,9 +78,9 @@ jobs:
             aws-region: AWS_DEFAULT_REGION
             aws-secret-access-key: AWS_SECRET_ACCESS_KEY
         - aws-eks/update-kubeconfig-with-authenticator:
-          install-kubectl: true
-          cluster-name: portfolio
-          aws-region: us-east-1
+            install-kubectl: true
+            cluster-name: portfolio
+            aws-region: us-east-1
         - run:
             command: |  
               sudo apt-get update
