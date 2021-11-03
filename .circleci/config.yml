@@ -31,17 +31,17 @@ jobs:
             terraform plan
             terraform apply -auto-approve
             cat << EOF >> main.tf
-terraform {
-  backend "s3" {
-    bucket = "enobasin"
-    key    = "global/s3/terraform.tfstate"
-    region = "us-east-1"
+                terraform {
+                  backend "s3" {
+                    bucket = "enobasin"
+                    key    = "global/s3/terraform.tfstate"
+                    region = "us-east-1"
 
-    dynamodb_table = "terraform-lock"
-    encrypt = true
-  }
-}
-EOF
+                    dynamodb_table = "terraform-lock"
+                    encrypt = true
+                  }
+                }
+                EOF
            
             
 
