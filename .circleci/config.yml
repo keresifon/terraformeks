@@ -54,12 +54,12 @@ jobs:
             sudo mv /tmp/eksctl /usr/local/bin
             eksctl version
             cd kubernetes
-            aws iam create-policy --policy-name ALBIngressControllerIAMPolicy --policy-document file://iam_policy.json
+            aws iam create-policy --policy-name ALBIngressControllerIAMNPolicy --policy-document file://iam_policy.json
             eksctl create iamserviceaccount \
                 --cluster=portfolio \
                 --namespace=kube-system \
                 --name=aws-load-balancer-controller \
-                --attach-policy-arn=arn:aws:iam::386710470695:policy/ALBIngressControllerIAMPolicy \
+                --attach-policy-arn=arn:aws:iam::386710470695:policy/ALBIngressControllerIAMNPolicy \
                 --override-existing-serviceaccounts \
                 --approve
 
