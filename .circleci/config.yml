@@ -31,28 +31,25 @@ jobs:
             terraform init
             terraform plan
             terraform apply -auto-approve
-            
-  eksctl:
-      # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-      # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-      docker:
-        - image: cimg/base:stable
-      # Add steps to the job
-      # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-      steps:
-        - checkout
-        - aws-cli/setup:
-            aws-access-key-id: AWS_ACCESS_KEY_ID
-            aws-region: AWS_DEFAULT_REGION
-            aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-         - aws-eks/install-eksctl
-        - run:
-            command: |
-              cd kubernetes
-              aws iam create-policy --policy-name ALBIngressControllerIAMPolicy --policy-document file://iam_policy.json
 
-              
-            
+  eksctl:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_DEFAULT_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - aws-eks/install-eksctl
+      - run:
+          command: |
+            cd kubernetes
+            aws iam create-policy --policy-name ALBIngressControllerIAMPolicy --policy-document file://iam_policy.json
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -60,6 +57,6 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      - eksctl :
+      - eksctl:
           requires:
-             - "terraform"
+            - "terraform"
