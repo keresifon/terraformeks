@@ -45,6 +45,11 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_DEFAULT_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      - run:
+          command: |  
+            apt-get update
+            apt-get -qq -y install curl
+            apt-get install -y unzip
       - aws-eks/install-eksctl
       - run:
           command: |
