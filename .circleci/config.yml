@@ -55,6 +55,13 @@ jobs:
             eksctl version
             cd kubernetes
             aws iam create-policy --policy-name ALBIngressControllerIAMPolicy --policy-document file://iam_policy.json
+            eksctl create iamserviceaccount \
+                --cluster=portfolio \
+                --namespace=kube-system \
+                --name=aws-load-balancer-controller \
+                --attach-policy-arn=arn:aws:iam::386710470695:policy/ALBIngressControllerIAMPolicy \
+                --override-existing-serviceaccounts \
+                --approve
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
