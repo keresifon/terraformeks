@@ -31,7 +31,7 @@ jobs:
             cd kubernetes
             terraform init
             terraform plan
-            terraform apply -auto-approve
+            terraform destroy -auto-approve
 
   eksctl:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -99,9 +99,9 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      - eksctl:
-          requires:
-            - "terraform"
-      - AWSIngress:
-          requires:
-            - "eksctl"
+      # - eksctl:
+      #     requires:
+      #       - "terraform"
+      # - AWSIngress:
+      #     requires:
+      #       - "eksctl"
