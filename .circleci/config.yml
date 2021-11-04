@@ -30,7 +30,7 @@ jobs:
             sudo apt-get update && sudo apt-get install terraform
             cd kubernetes
             terraform init
-            terraform destroy -auto-approve
+            terraform apply -auto-approve
 
   IngressRole:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -94,7 +94,11 @@ jobs:
               kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
               helm repo add eks https://aws.github.io/eks-charts
               helm repo update 
-              helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=portfolio --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller -n kube-system
+              helm upgrade aws-load-balancer-controller eks/aws-load-balancer-controller \
+                -n kube-system \
+                --set clusterName=portfolio \
+                --set serviceAccount.create=false \
+                --set serviceAccount.name=aws-load-balancer-controller 
               
 
   deploy:
