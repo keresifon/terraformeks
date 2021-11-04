@@ -30,7 +30,7 @@ jobs:
             sudo apt-get update && sudo apt-get install terraform
             cd kubernetes
             terraform init
-            terraform destroy -auto-approve
+            terraform apply -auto-approve
 
   IngressRole:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -98,7 +98,7 @@ jobs:
                  --set clusterName=portfolio \ 
                  --set serviceAccount.create=false \
                  --set serviceAccount.name=aws-load-balancer-controller \
-                 -n kube-system
+                 --set nameSpace=kube-system 
               
   deploy:
       # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -129,13 +129,13 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      # - IngressRole:
-      #     requires:
-      #       - "terraform"
-      # - AWSIngress:
-      #     requires:
-      #       - "IngressRole"
-      # - deploy
-      #     requires:
-      #       - "AWSIngress"
+      - IngressRole:
+          requires:
+            - "terraform"
+      - AWSIngress:
+          requires:
+            - "IngressRole"
+      - deploy
+          requires:
+            - "AWSIngress"
      
