@@ -109,10 +109,10 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      # - IngressRole:
-      #     requires:
-      #       - "terraform"
-      # - deploy:
-      #     requires:
-      #       - "IngressRole"
+      - IngressRole:
+          requires:
+            - "terraform"
+      - deploy:
+          requires:
+            - "IngressRole"
      
