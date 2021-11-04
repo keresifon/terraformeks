@@ -135,9 +135,9 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      # - IngressRole:
-      #     requires:
-      #       - "terraform"
+      - IngressRole:
+          requires:
+            - "terraform"
       # - AWSIngress:
       #     requires:
       #       - "IngressRole"
