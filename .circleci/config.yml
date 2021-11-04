@@ -30,7 +30,7 @@ jobs:
             sudo apt-get update && sudo apt-get install terraform
             cd kubernetes
             terraform init
-            terraform apply -auto-approve
+            terraform destroy -auto-approve
 
   IngressRole:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -97,8 +97,7 @@ jobs:
               helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
                  --set clusterName=portfolio\ 
                  --set serviceAccount.create=false \
-                 --set serviceAccount.name=aws-load-balancer-controller \
-                 -n kube-system
+                 --set serviceAccount.name=aws-load-balancer-controller -n kube-system
               cd kubernetes
               kubectl apply -f dep.yaml
   
@@ -109,10 +108,10 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      - IngressRole:
-          requires:
-            - "terraform"
-      - deploy:
-          requires:
-            - "IngressRole"
+      # - IngressRole:
+      #     requires:
+      #       - "terraform"
+      # - deploy:
+      #     requires:
+      #       - "IngressRole"
      
