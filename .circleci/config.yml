@@ -135,7 +135,7 @@ workflows:
       - AWSIngress:
           requires:
             - "IngressRole"
-      - deploy
+      - deploy:
           requires:
             - "AWSIngress"
      
