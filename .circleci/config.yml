@@ -59,7 +59,7 @@ jobs:
                 --cluster=portfolio \
                 --namespace=kube-system \
                 --name=aws-load-balancer-controller \
-                --attach-policy-arn=arn:aws:iam::386710470695:policy/ALBIngressControllerIAMPolicy \
+                --attach-policy-arn=arn:aws:iam::870899748481:policy/ALBIngressControllerIAMPolicy \
                 --override-existing-serviceaccounts \
                 --approve
   AWSIngress:
