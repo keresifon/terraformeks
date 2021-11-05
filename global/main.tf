@@ -44,7 +44,7 @@ module "dynamodb_table" {
 
 terraform {
   backend "s3" {
-    bucket = "enobasin"
+    bucket = "enobasiniba"
     key    = "global/s3/terraform.tfstate"
     region = "us-east-1"
 

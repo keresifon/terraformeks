@@ -2,7 +2,7 @@
 
 terraform {
   backend "s3" {
-    bucket = "enobasin"
+    bucket = "enobasiniba"
     key    = "kubernetes/s3/terraform.tfstate"
     region = "us-east-1"
 
