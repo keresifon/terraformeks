@@ -30,7 +30,7 @@ jobs:
             sudo apt-get update && sudo apt-get install terraform
             cd kubernetes
             terraform init
-            terraform apply -auto-approve
+            terraform destroy -auto-approve
 
   IngressRole:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -131,12 +131,12 @@ workflows:
   terraform-workflow:
     jobs:
       - terraform
-      - IngressRole:
-          requires:
-            - "terraform"
-      - AWSIngress:
-          requires:
-            - "IngressRole"
+      # - IngressRole:
+      #     requires:
+      #       - "terraform"
+      # - AWSIngress:
+      #     requires:
+      #       - "IngressRole"
       # # - deploy:
       #     requires:
       #       - "AWSIngress"
