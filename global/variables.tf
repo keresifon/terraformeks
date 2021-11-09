@@ -1,5 +1,5 @@
 variable "s3_bucket" {
-    default = "enobasiniba"
+    default = "enobasin"
     description = "Bucket Name"
     type = string
 }

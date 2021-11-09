@@ -30,7 +30,7 @@ jobs:
             sudo apt-get update && sudo apt-get install terraform
             cd kubernetes
             terraform init
-            terraform destroy -auto-approve
+            terraform apply -auto-approve
 
   IngressRole:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -59,9 +59,9 @@ jobs:
                 --cluster=portfolio \
                 --namespace=kube-system \
                 --name=aws-load-balancer-controller \
-                --attach-policy-arn=arn:aws:iam::870899748481:policy/ALBIngressControllerIAMPolicy \
-                --override-existing-serviceaccounts \
-                --approve
+                --attach-policy-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:policy/ALBIngressControllerIAMPolicy \
+                --approve \
+                --override-existing-serviceaccounts 
   AWSIngress:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -78,7 +78,7 @@ jobs:
       - aws-eks/update-kubeconfig-with-authenticator:
           install-kubectl: true
           cluster-name: portfolio
-          aws-region: us-east-1
+          aws-region: ${AWS_DEFAULT_REGION}
       - run:
           command: |
             sudo apt-get update
