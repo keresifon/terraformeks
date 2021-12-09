@@ -9,3 +9,7 @@ A four stage pipeline to provision AWS resources for an EKS cluster
 Using Circle CI  https://github.com/keresifon/terraformeks/tree/main/.circleci
 
 Using Gitlab CI https://gitlab.com/keresifon/terraformeks/-/tree/main
+
+Using Jenkins see Jenkinsfile in main https://github.com/keresifon/eksjenkins
+
+Using GitHub Actions https://github.com/keresifon/eksjenkins/tree/main/.github/workflows
